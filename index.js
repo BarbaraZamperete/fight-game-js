@@ -13,21 +13,36 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 
 //cria uma classe de Sprite que tem como atributo um objeto que contem posição e velocidade
 class Sprite {
-  constructor({ position, velocity }) {
+  constructor({ position, velocity, color }) {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
+    this.color = color
     //variávei que guarda a ultima tecla pressionada
     //para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
     this.lasKey;
+    this.attackBox = {
+      position: this.position,
+      width: 100,
+      height: 50,
+    };
   }
 
   //método que insere o Sprite na cena
   draw() {
     //define a cor do Sprite e cria ele preenxendo a
     //tela da posição X,Y do elemento, até o tamanho e largura dele
-    c.fillStyle = "red";
+    c.fillStyle = this.color;
     c.fillRect(this.position.x, this.position.y, 50, this.height);
+
+    //insere attackBox
+    c.fillStyle = 'green'
+    c.fillRect(
+      this.attackBox.position.x,
+      this.attackBox.position.y,
+      this.attackBox.width,
+      this.attackBox.height
+    );
   }
 
   //método que é chamado a cada frame do jogo
@@ -61,6 +76,7 @@ const player = new Sprite({
     x: 0,
     y: 0,
   },
+  color: 'blue'
 });
 //cria um objeto enemy da classe Sprite
 const enemy = new Sprite({
@@ -72,6 +88,7 @@ const enemy = new Sprite({
     x: 0,
     y: 0,
   },
+  color: 'red'
 });
 
 //um objeto para controlar as teclas pressionadas
