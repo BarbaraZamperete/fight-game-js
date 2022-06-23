@@ -14,16 +14,17 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 //cria uma classe de Sprite que tem como atributo um objeto que contem posição e velocidade
 class Sprite {
   constructor({ position, velocity }) {
-    this.position = position;
-    this.velocity = velocity;
-    this.height = 150;
+    this.position = position
+    this.velocity = velocity
+    this.height = 150
+    this.lasKey
   }
 
   //método que insere o Sprite na cena
   draw() {
     //define a cor do Sprite e cria ele preenxendo a
     //tela da posição X,Y do elemento, até o tamanho e largura dele
-    c.fillStyle = "red";
+    c.fillStyle = "red"
     c.fillRect(this.position.x, this.position.y, 50, this.height);
   }
 
@@ -79,9 +80,12 @@ const keys = {
   d: {
     pressed: false,
   },
-  w: {
-    pressed: false,
+  ArrowLeft: {
+    pressed: false
   },
+  ArrowRight: {
+    pressed: false
+  }
 };
 
 //variávei que guarda a ultima tecla pressionada
@@ -101,20 +105,31 @@ function animate() {
   enemy.update();
 
   //zera a velocidade x dos objetos
-  player.velocity.x = 0;
+  player.velocity.x = 0
+  enemy.velocity.x = 0
 
+  //movimento do player
   //verifica qual tecla está pressionada. Ela deve coincidir com a última tecla pressionada
   //para então gerar a velocidade no eixo X no personagem
-  if (keys.a.pressed && lastKey == "a") {
-    player.velocity.x = -1;
-  } else if (keys.d.pressed && lastKey == "d") {
-    player.velocity.x = 1;
+  if (keys.a.pressed && lastKey === "a") {
+    player.velocity.x = -1
+  } else if (keys.d.pressed && lastKey === "d") {
+    player.velocity.x = 1
   }
+
+  //movimento do enemy
+  if (keys.ArrowLeft.pressed && enemy.lasKey === "ArrowLeft") {
+    enemy.velocity.x = -1
+  } else if (keys.ArrowRight.pressed && enemy.lasKey === "ArrowRight") {
+    enemy.velocity.x = 1
+  }
+
 }
 animate();
 
 //evento que fica escutando quais teclas são pressionadas
 window.addEventListener("keydown", (event) => {
+    console.log(event.key)
   switch (event.key) {
     case "d":
       keys.d.pressed = true;
@@ -125,8 +140,18 @@ window.addEventListener("keydown", (event) => {
       lastKey = "a";
       break;
     case "w":
-      keys.w.pressed = true;
-      player.velocity.y = -10
+      player.velocity.y = -10;
+      break;
+    case "ArrowRight":
+      keys.ArrowRight.pressed = true;
+      enemy.lasKey = "ArrowRight";
+      break;
+    case "ArrowLeft":
+      keys.ArrowLeft.pressed = true;
+      enemy.lasKey = "ArrowLeft";
+      break;
+    case "ArrowUp":
+      enemy.velocity.y = -10
       break;
   }
 });
@@ -141,8 +166,14 @@ window.addEventListener("keyup", (event) => {
     case "a":
       keys.a.pressed = false;
       break;
-    case "w":
-      keys.w.pressed = false;
+  }
+
+  switch (event.key) {
+    case "ArrowRight":
+      keys.ArrowRight.pressed = false;
+      break;
+    case "ArrowLeft":
+      keys.ArrowLeft.pressed = false;
       break;
   }
 });
