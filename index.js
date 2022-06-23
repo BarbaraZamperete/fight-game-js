@@ -14,17 +14,19 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 //cria uma classe de Sprite que tem como atributo um objeto que contem posição e velocidade
 class Sprite {
   constructor({ position, velocity }) {
-    this.position = position
-    this.velocity = velocity
-    this.height = 150
-    this.lasKey
+    this.position = position;
+    this.velocity = velocity;
+    this.height = 150;
+    //variávei que guarda a ultima tecla pressionada
+    //para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
+    this.lasKey;
   }
 
   //método que insere o Sprite na cena
   draw() {
     //define a cor do Sprite e cria ele preenxendo a
     //tela da posição X,Y do elemento, até o tamanho e largura dele
-    c.fillStyle = "red"
+    c.fillStyle = "red";
     c.fillRect(this.position.x, this.position.y, 50, this.height);
   }
 
@@ -81,16 +83,12 @@ const keys = {
     pressed: false,
   },
   ArrowLeft: {
-    pressed: false
+    pressed: false,
   },
   ArrowRight: {
-    pressed: false
-  }
+    pressed: false,
+  },
 };
-
-//variávei que guarda a ultima tecla pressionada
-//para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
-let lastKey;
 
 //função que roda em loop. Cada chamada dessa função pe um frame do game
 function animate() {
@@ -105,39 +103,38 @@ function animate() {
   enemy.update();
 
   //zera a velocidade x dos objetos
-  player.velocity.x = 0
-  enemy.velocity.x = 0
+  player.velocity.x = 0;
+  enemy.velocity.x = 0;
 
   //movimento do player
   //verifica qual tecla está pressionada. Ela deve coincidir com a última tecla pressionada
   //para então gerar a velocidade no eixo X no personagem
-  if (keys.a.pressed && lastKey === "a") {
-    player.velocity.x = -1
-  } else if (keys.d.pressed && lastKey === "d") {
-    player.velocity.x = 1
+  if (keys.a.pressed && player.lastKey === "a") {
+    player.velocity.x = -1;
+  } else if (keys.d.pressed && player.lastKey === "d") {
+    player.velocity.x = 1;
   }
 
   //movimento do enemy
   if (keys.ArrowLeft.pressed && enemy.lasKey === "ArrowLeft") {
-    enemy.velocity.x = -1
+    enemy.velocity.x = -1;
   } else if (keys.ArrowRight.pressed && enemy.lasKey === "ArrowRight") {
-    enemy.velocity.x = 1
+    enemy.velocity.x = 1;
   }
-
 }
 animate();
 
 //evento que fica escutando quais teclas são pressionadas
 window.addEventListener("keydown", (event) => {
-    console.log(event.key)
+  console.log(event.key);
   switch (event.key) {
     case "d":
       keys.d.pressed = true;
-      lastKey = "d";
+      player.lastKey = "d";
       break;
     case "a":
       keys.a.pressed = true;
-      lastKey = "a";
+      player.lastKey = "a";
       break;
     case "w":
       player.velocity.y = -10;
@@ -151,7 +148,7 @@ window.addEventListener("keydown", (event) => {
       enemy.lasKey = "ArrowLeft";
       break;
     case "ArrowUp":
-      enemy.velocity.y = -10
+      enemy.velocity.y = -10;
       break;
   }
 });
