@@ -21,7 +21,7 @@ class Sprite {
 
   //método que insere o Sprite na cena
   draw() {
-    //define a cor do Sprite e cria ele preenxendo a 
+    //define a cor do Sprite e cria ele preenxendo a
     //tela da posição X,Y do elemento, até o tamanho e largura dele
     c.fillStyle = "red";
     c.fillRect(this.position.x, this.position.y, 50, this.height);
@@ -42,7 +42,7 @@ class Sprite {
     if (this.position.y + this.height + this.velocity.y >= canvas.height) {
       this.velocity.y = 0;
     } else {
-    //enquanto ele não está no "chão", a gravidade vai sendo somada a velocidade, aumentando-a
+      //enquanto ele não está no "chão", a gravidade vai sendo somada a velocidade, aumentando-a
       this.velocity.y += gravity;
     }
   }
@@ -58,7 +58,7 @@ const player = new Sprite({
     x: 0,
     y: 0,
   },
-})
+});
 //cria um objeto enemy da classe Sprite
 const enemy = new Sprite({
   position: {
@@ -79,16 +79,19 @@ const keys = {
   d: {
     pressed: false,
   },
-}
+  w: {
+    pressed: false,
+  },
+};
 
 //variávei que guarda a ultima tecla pressionada
 //para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
-let lastKey
+let lastKey;
 
 //função que roda em loop. Cada chamada dessa função pe um frame do game
 function animate() {
   //animate loop game
-  window.requestAnimationFrame(animate)
+  window.requestAnimationFrame(animate);
 
   //a cada frame a tela é pintada de preto novamente e seu tamanho reniciado
   c.fillStyle = "black";
@@ -102,9 +105,9 @@ function animate() {
 
   //verifica qual tecla está pressionada. Ela deve coincidir com a última tecla pressionada
   //para então gerar a velocidade no eixo X no personagem
-  if (keys.a.pressed && lastKey=='a') {
+  if (keys.a.pressed && lastKey == "a") {
     player.velocity.x = -1;
-  } else if (keys.d.pressed && lastKey=='d') {
+  } else if (keys.d.pressed && lastKey == "d") {
     player.velocity.x = 1;
   }
 }
@@ -115,11 +118,15 @@ window.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "d":
       keys.d.pressed = true;
-      lastKey = 'd'
+      lastKey = "d";
       break;
     case "a":
       keys.a.pressed = true;
-      lastKey = 'a'
+      lastKey = "a";
+      break;
+    case "w":
+      keys.w.pressed = true;
+      player.velocity.y = -10
       break;
   }
 });
@@ -133,6 +140,9 @@ window.addEventListener("keyup", (event) => {
       break;
     case "a":
       keys.a.pressed = false;
+      break;
+    case "w":
+      keys.w.pressed = false;
       break;
   }
 });
