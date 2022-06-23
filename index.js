@@ -17,7 +17,8 @@ class Sprite {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
-    this.color = color
+    this.width = 50;
+    this.color = color;
     //variávei que guarda a ultima tecla pressionada
     //para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
     this.lasKey;
@@ -33,10 +34,10 @@ class Sprite {
     //define a cor do Sprite e cria ele preenxendo a
     //tela da posição X,Y do elemento, até o tamanho e largura dele
     c.fillStyle = this.color;
-    c.fillRect(this.position.x, this.position.y, 50, this.height);
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     //insere attackBox
-    c.fillStyle = 'green'
+    c.fillStyle = "green";
     c.fillRect(
       this.attackBox.position.x,
       this.attackBox.position.y,
@@ -76,7 +77,7 @@ const player = new Sprite({
     x: 0,
     y: 0,
   },
-  color: 'blue'
+  color: "blue",
 });
 //cria um objeto enemy da classe Sprite
 const enemy = new Sprite({
@@ -88,7 +89,7 @@ const enemy = new Sprite({
     x: 0,
     y: 0,
   },
-  color: 'red'
+  color: "red",
 });
 
 //um objeto para controlar as teclas pressionadas
@@ -138,12 +139,21 @@ function animate() {
   } else if (keys.ArrowRight.pressed && enemy.lasKey === "ArrowRight") {
     enemy.velocity.x = 5;
   }
+
+  //detectar colision
+  if (
+    player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
+    player.attackBox.position.x <= enemy.width + enemy.position.x &&
+    player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
+    player.attackBox.position.y <= enemy.position.y  + enemy.height
+  ) {
+    console.log("Atacando")
+  }
 }
 animate();
 
 //evento que fica escutando quais teclas são pressionadas
 window.addEventListener("keydown", (event) => {
-  console.log(event.key);
   switch (event.key) {
     case "d":
       keys.d.pressed = true;
