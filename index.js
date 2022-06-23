@@ -6,7 +6,7 @@ const c = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
-const gravity = 0.2;
+const gravity = 0.7;
 
 //preenche a tela, da posição x1,y1 até a posição x2,y2
 c.fillRect(0, 0, canvas.width, canvas.height);
@@ -110,16 +110,16 @@ function animate() {
   //verifica qual tecla está pressionada. Ela deve coincidir com a última tecla pressionada
   //para então gerar a velocidade no eixo X no personagem
   if (keys.a.pressed && player.lastKey === "a") {
-    player.velocity.x = -1;
+    player.velocity.x = -5;
   } else if (keys.d.pressed && player.lastKey === "d") {
-    player.velocity.x = 1;
+    player.velocity.x = 5;
   }
 
   //movimento do enemy
   if (keys.ArrowLeft.pressed && enemy.lasKey === "ArrowLeft") {
-    enemy.velocity.x = -1;
+    enemy.velocity.x = -5;
   } else if (keys.ArrowRight.pressed && enemy.lasKey === "ArrowRight") {
-    enemy.velocity.x = 1;
+    enemy.velocity.x = 5;
   }
 }
 animate();
@@ -137,7 +137,7 @@ window.addEventListener("keydown", (event) => {
       player.lastKey = "a";
       break;
     case "w":
-      player.velocity.y = -10;
+      player.velocity.y = -20;
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
@@ -148,7 +148,7 @@ window.addEventListener("keydown", (event) => {
       enemy.lasKey = "ArrowLeft";
       break;
     case "ArrowUp":
-      enemy.velocity.y = -10;
+      enemy.velocity.y = -20;
       break;
   }
 });
