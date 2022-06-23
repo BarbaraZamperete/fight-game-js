@@ -27,6 +27,7 @@ class Sprite {
       width: 100,
       height: 50,
     };
+    this.isAttacking;
   }
 
   //método que insere o Sprite na cena
@@ -44,6 +45,13 @@ class Sprite {
       this.attackBox.width,
       this.attackBox.height
     );
+  }
+
+  attack() {
+    this.isAttacking = true;
+    setTimeout(() => {
+      this.isAttacking = false;
+    }, 100);
   }
 
   //método que é chamado a cada frame do jogo
@@ -145,15 +153,18 @@ function animate() {
     player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
     player.attackBox.position.x <= enemy.width + enemy.position.x &&
     player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
-    player.attackBox.position.y <= enemy.position.y  + enemy.height
+    player.attackBox.position.y <= enemy.position.y + enemy.height &&
+    player.isAttacking
   ) {
-    console.log("Atacando")
+    player.isAttacking = false
+    console.log("Atacando");
   }
 }
 animate();
 
 //evento que fica escutando quais teclas são pressionadas
 window.addEventListener("keydown", (event) => {
+  // console.log(event.key)
   switch (event.key) {
     case "d":
       keys.d.pressed = true;
@@ -165,6 +176,9 @@ window.addEventListener("keydown", (event) => {
       break;
     case "w":
       player.velocity.y = -20;
+      break;
+    case " ":
+      player.attack();
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
