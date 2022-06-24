@@ -148,9 +148,9 @@ class Fighter extends Sprite {
   attack() {
     this.switchSprit("attack1");
     this.isAttacking = true;
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
+    // setTimeout(() => {
+    //   this.isAttacking = false;
+    // }, 100);
   }
 
   //método que é chamado a cada frame do jogo
@@ -158,19 +158,10 @@ class Fighter extends Sprite {
     //insere os sprite na tela nas posições atualizadas
     this.draw();
     this.animateFrames();
-    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-    this.attackBox.position.y = this.position.y;
 
-    // insere attackBox
-     {
-      c.fillStyle = "green";
-      c.fillRect(
-        this.attackBox.position.x,
-        this.attackBox.position.y,
-        this.attackBox.width,
-        this.attackBox.height
-      );
-    }
+    //attacking boxes
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 
     //adiciona velocidade a posição
     this.position.x += this.velocity.x;

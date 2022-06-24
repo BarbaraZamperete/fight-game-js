@@ -75,10 +75,10 @@ const player = new Fighter({
   },
   attackBox: {
     offset: {
-      x: 0,
-      y: 0,
+      x: 100,
+      y: 50,
     },
-    width: 100,
+    width: 160,
     height: 50,
   },
 });
@@ -128,10 +128,10 @@ const enemy = new Fighter({
   },
   attackBox: {
     offset: {
-      x: 0,
-      y: 0,
+      x: -170,
+      y: 50,
     },
-    width: 100,
+    width: 170,
     height: 50,
   },
 });
@@ -212,21 +212,34 @@ function animate() {
   //detectar colision
   if (
     rectangularCollision({ rectagle1: player, rectagle2: enemy }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.frameCurrent === 4
   ) {
     player.isAttacking = false;
     console.log("Atacando Player");
     enemy.health -= 20;
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
   }
+
+  //if player miss
+  if (player.isAttacking && player.frameCurrent === 4) {
+    player.isAttacking = false;
+  }
+
   if (
     rectangularCollision({ rectagle1: enemy, rectagle2: player }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.frameCurrent === 2
   ) {
     enemy.isAttacking = false;
     console.log("Atacando Enemy");
     player.health -= 20;
     document.querySelector("#playerHealth").style.width = player.health + "%";
+  }
+
+  //if enemy miss
+  if (enemy.isAttacking && enemy.frameCurrent === 2) {
+    enemy.isAttacking = false;
   }
 
   //end the game base on health
