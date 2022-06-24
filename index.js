@@ -12,12 +12,12 @@ const gravity = 0.7;
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 const background = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    imageSrc: './assets/background.png'
-})
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: "./assets/background.png",
+});
 
 //cria um objeto player da classe Sprite
 const player = new Fighter({
@@ -68,44 +68,8 @@ const keys = {
   },
 };
 
-function rectangularCollision({ rectagle1, rectagle2 }) {
-  return (
-    rectagle1.attackBox.position.x + rectagle1.attackBox.width >=
-      rectagle2.position.x &&
-    rectagle1.attackBox.position.x <= rectagle2.width + rectagle2.position.x &&
-    rectagle1.attackBox.position.y + rectagle1.attackBox.height >=
-      rectagle2.position.y &&
-    rectagle1.attackBox.position.y <= rectagle2.position.y + rectagle2.height
-  );
-}
-function determineWinner({player, enemy, timeId}){
-    clearTimeout(timeId)
-    const resultText = document.querySelector("#resultText")
-    resultText.style.display = "flex";
-    if (player.health === enemy.health) {
-        resultText.innerHTML = "EMPATE";
-      }else if (player.health > enemy.health){
-          resultText.innerHTML = 'Player Blue Ganhou'
-      }
-      else if (enemy.health > player.health){
-          resultText.innerHTML = 'Enemy Red Ganhou'
-      }
-}
-let timer = 15;
-let timeId
-function decreaseTimer() {
-  if (timer > 0) {
-    timeId = setTimeout(decreaseTimer, 1000);
-    timer--;
-    document.querySelector("#timer").innerHTML = timer;
-  }
-
-  if (timer == 0) {
-    determineWinner({player, enemy, timeId})
-  }
-}
 decreaseTimer();
-//função que roda em loop. Cada chamada dessa função pe um frame do game
+//função que roda em loop. Cada chamada dessa função é um frame do game
 function animate() {
   //animate loop game
   window.requestAnimationFrame(animate);
@@ -159,8 +123,8 @@ function animate() {
   }
 
   //end the game base on health
-  if( enemy.health <= 0 || player.health <= 0){
-    determineWinner({player, enemy, timeId})
+  if (enemy.health <= 0 || player.health <= 0) {
+    determineWinner({ player, enemy, timeId });
   }
 }
 animate();
