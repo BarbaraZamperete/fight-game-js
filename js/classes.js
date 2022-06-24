@@ -124,6 +124,7 @@ class Fighter extends Sprite {
     //quantos frames da anaimação devem passar para se trocar um frame da img
     //por padrão é igual a 1
     this.framesHold = 5;
+    this.dead = false;
   }
 
   //método que insere o Sprite na cena
@@ -156,8 +157,11 @@ class Fighter extends Sprite {
   //método que é chamado a cada frame do jogo
   update() {
     //insere os sprite na tela nas posições atualizadas
+    if(!this.dead){
+        this.animateFrames();
+    }
     this.draw();
-    this.animateFrames();
+    
 
     //attacking boxes
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
@@ -181,8 +185,13 @@ class Fighter extends Sprite {
   }
 
   takeHit() {
-    this.switchSprit("takeHit");
     this.health -= 20;
+
+    if (this.health <= 0) {
+      this.switchSprit("death");
+    } else {
+      this.switchSprit("takeHit");
+    }
   }
 
   switchSprit(sprite) {
@@ -200,6 +209,14 @@ class Fighter extends Sprite {
     ) {
       return;
     }
+
+    if (this.image === this.sprites.death.image) {
+        if(this.frameCurrent == this.sprites.death.framesMax - 1){
+            this.dead = 1
+        }
+      return;
+    }
+
     switch (sprite) {
       case "idle":
         if (this.image !== this.sprites.idle.image) {
@@ -240,6 +257,13 @@ class Fighter extends Sprite {
         if (this.image !== this.sprites.takeHit.image) {
           this.image = this.sprites.takeHit.image;
           this.framesMax = this.sprites.takeHit.framesMax;
+          this.frameCurrent = 0;
+        }
+        break;
+      case "death":
+        if (this.image !== this.sprites.death.image) {
+          this.image = this.sprites.death.image;
+          this.framesMax = this.sprites.death.framesMax;
           this.frameCurrent = 0;
         }
         break;
