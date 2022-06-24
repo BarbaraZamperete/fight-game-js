@@ -8,6 +8,7 @@ class Sprite {
     //esse obj recebe como src o atributo que é passado no construtor: imageSrc
     this.image.src = imageSrc;
     this.scale = scale;
+    //atributo que guarda a qnt de frames de uma imagem
     this.framesMax = framesMax
   }
 
@@ -23,7 +24,7 @@ class Sprite {
       this.image.width / this.framesMax,
       this.image.height,
       //aqui termina a janela de corte
-      //aqui ém diante é para a construção da imagem inteira
+      //aqui ém diante é para a construção da imagem do tamanho da janela de corte
       this.position.x,
       this.position.y,
       (this.image.width / this.framesMax) * this.scale,
