@@ -9,9 +9,15 @@ class Sprite {
     this.image.src = imageSrc;
     this.scale = scale;
     //atributo que guarda a qnt de frames de uma imagem
-    this.framesMax = framesMax
+    this.framesMax = framesMax;
     //o valor desse atributo controla qual frame será mostrado
-    this.frameCurrent = 0
+    this.frameCurrent = 0;
+    //att responsáveis por controlar o tempo para troca dos frames
+    //framesElapsed = o tempo decorrido da animação
+    this.framesElapsed = 0;
+    //quantos frames da anaimação devem passar para se trocar um frame da img
+    //por padrão é igual a 1
+    this.framesHold = 10;
   }
 
   //método que insere o Sprite na cena
@@ -21,8 +27,8 @@ class Sprite {
       this.image,
       //essa parte gera uma janela de corte pra imagem, que começa na posição 0
       //o que tiver fora da janela de corte da nossa imagem, não vai aparecer
-        //essa conta a baixo é responsável por "andar" a janela de corte para
-        //passar os frames
+      //essa conta a baixo é responsável por "andar" a janela de corte para
+      //passar os frames
       this.frameCurrent * (this.image.width / this.framesMax),
       0,
       this.image.width / this.framesMax,
@@ -40,6 +46,19 @@ class Sprite {
   update() {
     //insere os sprite na tela nas posições atualizadas
     this.draw();
+    this.framesElapsed++;
+
+    //o resto da divisão do tempo decorrido pelo tempo de espera p trocar de imagem vai
+    //ser igual a zero quando o tempo decorrido por um multiplo de 10
+    //10,20,30,40
+    //pois framesHold é igual a 10
+    if (this.framesElapsed % this.framesHold === 0) {
+      if (this.frameCurrent < this.framesMax - 1) {
+        this.frameCurrent++;
+      } else {
+        this.frameCurrent = 0;
+      }
+    }
   }
 }
 //cria uma classe de Fighter que tem como atributo um objeto que contem posição e velocidade
