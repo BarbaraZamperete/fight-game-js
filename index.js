@@ -32,7 +32,7 @@ class Sprite {
       height: 50,
     };
     this.isAttacking;
-    this.health = 100
+    this.health = 100;
   }
 
   //método que insere o Sprite na cena
@@ -43,8 +43,7 @@ class Sprite {
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     //insere attackBox
-    if (this.isAttacking)
-    {
+    if (this.isAttacking) {
       c.fillStyle = "green";
       c.fillRect(
         this.attackBox.position.x,
@@ -144,7 +143,31 @@ function rectangularCollision({ rectagle1, rectagle2 }) {
     rectagle1.attackBox.position.y <= rectagle2.position.y + rectagle2.height
   );
 }
+function determineWinner({player, enemy}){
+    const resultText = document.querySelector("#resultText")
+    resultText.style.display = "flex";
+    if (player.health === enemy.health) {
+        resultText.innerHTML = "EMPATE";
+      }else if (player.health > enemy.health){
+          resultText.innerHTML = 'Player Blue Ganhou'
+      }
+      else if (enemy.health > player.health){
+          resultText.innerHTML = 'Enemy Red Ganhou'
+      }
+}
+let timer = 10;
+function decreaseTimer() {
+  if (timer > 0) {
+    setTimeout(decreaseTimer, 1000);
+    timer--;
+    document.querySelector("#timer").innerHTML = timer;
+  }
 
+  if (timer == 0) {
+    determineWinner({player, enemy})
+  }
+}
+decreaseTimer();
 //função que roda em loop. Cada chamada dessa função pe um frame do game
 function animate() {
   //animate loop game
@@ -184,8 +207,8 @@ function animate() {
   ) {
     player.isAttacking = false;
     console.log("Atacando Player");
-    enemy.health -= 20
-    document.querySelector("#enemyHealth").style.width = enemy.health + '%'
+    enemy.health -= 20;
+    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
   }
   if (
     rectangularCollision({ rectagle1: enemy, rectagle2: player }) &&
@@ -193,8 +216,13 @@ function animate() {
   ) {
     enemy.isAttacking = false;
     console.log("Atacando Enemy");
-    player.health -= 20
-    document.querySelector("#playerHealth").style.width = player.health + '%'
+    player.health -= 20;
+    document.querySelector("#playerHealth").style.width = player.health + "%";
+  }
+
+  //end the game base on health
+  if( enemy.health <= 0 || player.health <= 0){
+    determineWinner({player, enemy})
   }
 }
 animate();
