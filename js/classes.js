@@ -1,5 +1,11 @@
 class Sprite {
-  constructor({ position, imageSrc, scale = 1, framesMax = 1 }) {
+  constructor({
+    position,
+    imageSrc,
+    scale = 1,
+    framesMax = 1,
+    offset = { x: 0, y: 0 },
+  }) {
     this.position = position;
     this.height = 150;
     this.width = 50;
@@ -18,6 +24,7 @@ class Sprite {
     //quantos frames da anaimação devem passar para se trocar um frame da img
     //por padrão é igual a 1
     this.framesHold = 5;
+    this.offset = offset;
   }
 
   //método que insere o Sprite na cena
@@ -35,17 +42,15 @@ class Sprite {
       this.image.height,
       //aqui termina a janela de corte
       //aqui ém diante é para a construção da imagem do tamanho da janela de corte
-      this.position.x,
-      this.position.y,
+      //o offset é para ajustar qnd a janela de corte é grande para o sprit.
+      this.position.x - this.offset.x,
+      this.position.y - this.offset.y,
       (this.image.width / this.framesMax) * this.scale,
       this.image.height * this.scale
     );
   }
 
-  //método que é chamado a cada frame do jogo
-  update() {
-    //insere os sprite na tela nas posições atualizadas
-    this.draw();
+  animateFrames(){
     this.framesElapsed++;
 
     //o resto da divisão do tempo decorrido pelo tempo de espera p trocar de imagem vai
@@ -60,12 +65,33 @@ class Sprite {
       }
     }
   }
+
+  //método que é chamado a cada frame do jogo
+  update() {
+    //insere os sprite na tela nas posições atualizadas
+    this.draw();
+    this.animateFrames()
+  }
 }
 //cria uma classe de Fighter que tem como atributo um objeto que contem posição e velocidade
 
-class Fighter {
-  constructor({ position, velocity, color = "red", offset }) {
-    this.position = position;
+class Fighter extends Sprite {
+  constructor({
+    position,
+    velocity,
+    color = "red",
+    imageSrc,
+    scale = 1,
+    framesMax = 1,
+    offset = { x: 0, y: 0 },
+  }) {
+    super({
+      position,
+      imageSrc,
+      scale,
+      framesMax,
+      offset,
+    });
     this.velocity = velocity;
     this.height = 150;
     this.width = 50;
@@ -84,26 +110,33 @@ class Fighter {
     };
     this.isAttacking;
     this.health = 100;
+    this.frameCurrent = 0;
+    //att responsáveis por controlar o tempo para troca dos frames
+    //framesElapsed = o tempo decorrido da animação
+    this.framesElapsed = 0;
+    //quantos frames da anaimação devem passar para se trocar um frame da img
+    //por padrão é igual a 1
+    this.framesHold = 5;
   }
 
   //método que insere o Sprite na cena
-  draw() {
-    //define a cor do Sprite e cria ele preenxendo a
-    //tela da posição X,Y do elemento, até o tamanho e largura dele
-    c.fillStyle = this.color;
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  //   draw() {
+  //     //define a cor do Sprite e cria ele preenxendo a
+  //     //tela da posição X,Y do elemento, até o tamanho e largura dele
+  //     c.fillStyle = this.color;
+  //     c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
-    //insere attackBox
-    if (this.isAttacking) {
-      c.fillStyle = "green";
-      c.fillRect(
-        this.attackBox.position.x,
-        this.attackBox.position.y,
-        this.attackBox.width,
-        this.attackBox.height
-      );
-    }
-  }
+  //     //insere attackBox
+  //     if (this.isAttacking) {
+  //       c.fillStyle = "green";
+  //       c.fillRect(
+  //         this.attackBox.position.x,
+  //         this.attackBox.position.y,
+  //         this.attackBox.width,
+  //         this.attackBox.height
+  //       );
+  //     }
+  //   }
 
   attack() {
     this.isAttacking = true;
@@ -116,6 +149,7 @@ class Fighter {
   update() {
     //insere os sprite na tela nas posições atualizadas
     this.draw();
+    this.animateFrames()
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y;
 

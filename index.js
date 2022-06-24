@@ -12,14 +12,14 @@ const gravity = 0.7;
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 const shop = new Sprite({
-    position: {
-        x: 600,
-        y: 128
-    },
-    imageSrc: "./assets/shop.png",
-    scale: 2.75,
-    framesMax: 6
-})
+  position: {
+    x: 600,
+    y: 128,
+  },
+  imageSrc: "./assets/shop.png",
+  scale: 2.75,
+  framesMax: 6,
+});
 
 const background = new Sprite({
   position: {
@@ -44,6 +44,13 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
+  imageSrc: "./assets/samuraiMack/Idle.png",
+  framesMax: 8,
+  scale: 2.5,
+  offset: {
+    x: 215,
+    y: 157,
+  },
 });
 //cria um objeto enemy da classe Sprite
 const enemy = new Fighter({
@@ -59,6 +66,13 @@ const enemy = new Fighter({
   offset: {
     x: -50,
     y: 0,
+  },
+  imageSrc: "./assets/kenji/Idle.png",
+  framesMax: 4,
+  scale: 2.5,
+  offset: {
+    x: 215,
+    y: 157,
   },
 });
 
