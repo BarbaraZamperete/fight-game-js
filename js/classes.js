@@ -86,7 +86,8 @@ class Fighter {
     //se o sprite atingir o fim da tela, a velocidade Y dele zera
     //isso acontece quando a distancia da posição dele (fica no topo no sprite) somado
     //a altura dele, mais a velociade (que é o deslocamento) fica igual a altura da tela
-    if (this.position.y + this.height + this.velocity.y >= canvas.height) {
+    //o -97 é para ele ficar na altura do desenho do chão do backgorund
+    if (this.position.y + this.height + this.velocity.y >= canvas.height - 97) {
       this.velocity.y = 0;
     } else {
       //enquanto ele não está no "chão", a gravidade vai sendo somada a velocidade, aumentando-a
