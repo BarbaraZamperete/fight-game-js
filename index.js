@@ -11,98 +11,13 @@ const gravity = 0.7;
 //preenche a tela, da posição x1,y1 até a posição x2,y2
 c.fillRect(0, 0, canvas.width, canvas.height);
 
-//cria uma classe de Sprite que tem como atributo um objeto que contem posição e velocidade
-class Sprite {
-  constructor({ position }) {
-    this.position = position;
-    this.height = 150;
-    this.width = 50;
-    
-  }
-
-  //método que insere o Sprite na cena
-  draw() {
-    
-  }
-
-  //método que é chamado a cada frame do jogo
-  update() {
-    //insere os sprite na tela nas posições atualizadas
-    this.draw();
-    
-  }
-}
-class Fighter {
-    constructor({ position, velocity, color = "red", offset }) {
-      this.position = position;
-      this.velocity = velocity;
-      this.height = 150;
-      this.width = 50;
-      this.color = color;
-      //variávei que guarda a ultima tecla pressionada
-      //para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
-      this.lasKey;
-      this.attackBox = {
-        position: {
-          x: this.position.x,
-          y: this.position.y,
-        },
-        offset: offset,
-        width: 100,
-        height: 50,
-      };
-      this.isAttacking;
-      this.health = 100;
-    }
-  
-    //método que insere o Sprite na cena
-    draw() {
-      //define a cor do Sprite e cria ele preenxendo a
-      //tela da posição X,Y do elemento, até o tamanho e largura dele
-      c.fillStyle = this.color;
-      c.fillRect(this.position.x, this.position.y, this.width, this.height);
-  
-      //insere attackBox
-      if (this.isAttacking) {
-        c.fillStyle = "green";
-        c.fillRect(
-          this.attackBox.position.x,
-          this.attackBox.position.y,
-          this.attackBox.width,
-          this.attackBox.height
-        );
-      }
-    }
-  
-    attack() {
-      this.isAttacking = true;
-      setTimeout(() => {
-        this.isAttacking = false;
-      }, 100);
-    }
-  
-    //método que é chamado a cada frame do jogo
-    update() {
-      //insere os sprite na tela nas posições atualizadas
-      this.draw();
-      this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-      this.attackBox.position.y = this.position.y;
-  
-      //adiciona velocidade a posição
-      this.position.x += this.velocity.x;
-      this.position.y += this.velocity.y;
-  
-      //se o sprite atingir o fim da tela, a velocidade Y dele zera
-      //isso acontece quando a distancia da posição dele (fica no topo no sprite) somado
-      //a altura dele, mais a velociade (que é o deslocamento) fica igual a altura da tela
-      if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-        this.velocity.y = 0;
-      } else {
-        //enquanto ele não está no "chão", a gravidade vai sendo somada a velocidade, aumentando-a
-        this.velocity.y += gravity;
-      }
-    }
-  }
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    imageSrc: './assets/background.png'
+})
 
 //cria um objeto player da classe Sprite
 const player = new Fighter({
@@ -199,6 +114,7 @@ function animate() {
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
   //jogadores atualizados
+  background.update();
   player.update();
   enemy.update();
 
