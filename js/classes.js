@@ -17,7 +17,7 @@ class Sprite {
     this.framesElapsed = 0;
     //quantos frames da anaimação devem passar para se trocar um frame da img
     //por padrão é igual a 1
-    this.framesHold = 10;
+    this.framesHold = 5;
   }
 
   //método que insere o Sprite na cena
@@ -49,9 +49,9 @@ class Sprite {
     this.framesElapsed++;
 
     //o resto da divisão do tempo decorrido pelo tempo de espera p trocar de imagem vai
-    //ser igual a zero quando o tempo decorrido por um multiplo de 10
-    //10,20,30,40
-    //pois framesHold é igual a 10
+    //ser igual a zero quando o tempo decorrido por um multiplo de 5
+    //5,10,15,20
+    //pois framesHold é igual a 5
     if (this.framesElapsed % this.framesHold === 0) {
       if (this.frameCurrent < this.framesMax - 1) {
         this.frameCurrent++;
