@@ -13,7 +13,7 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 
 //cria uma classe de Sprite que tem como atributo um objeto que contem posição e velocidade
 class Sprite {
-  constructor({ position, velocity, color }) {
+  constructor({ position, velocity, color = "red", offset }) {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
@@ -23,7 +23,11 @@ class Sprite {
     //para o caso do usuário por exemplo, clicar e segurar 'a' e depois clicar em 'd'
     this.lasKey;
     this.attackBox = {
-      position: this.position,
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
+      offset: offset,
       width: 100,
       height: 50,
     };
@@ -38,13 +42,16 @@ class Sprite {
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     //insere attackBox
-    c.fillStyle = "green";
-    c.fillRect(
-      this.attackBox.position.x,
-      this.attackBox.position.y,
-      this.attackBox.width,
-      this.attackBox.height
-    );
+    if (this.isAttacking)
+    {
+      c.fillStyle = "green";
+      c.fillRect(
+        this.attackBox.position.x,
+        this.attackBox.position.y,
+        this.attackBox.width,
+        this.attackBox.height
+      );
+    }
   }
 
   attack() {
@@ -58,6 +65,8 @@ class Sprite {
   update() {
     //insere os sprite na tela nas posições atualizadas
     this.draw();
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    this.attackBox.position.y = this.position.y;
 
     //adiciona velocidade a posição
     this.position.x += this.velocity.x;
@@ -86,6 +95,10 @@ const player = new Sprite({
     y: 0,
   },
   color: "blue",
+  offset: {
+    x: 0,
+    y: 0,
+  },
 });
 //cria um objeto enemy da classe Sprite
 const enemy = new Sprite({
@@ -98,6 +111,10 @@ const enemy = new Sprite({
     y: 0,
   },
   color: "red",
+  offset: {
+    x: -50,
+    y: 0,
+  },
 });
 
 //um objeto para controlar as teclas pressionadas
@@ -115,6 +132,17 @@ const keys = {
     pressed: false,
   },
 };
+
+function rectangularCollision({ rectagle1, rectagle2 }) {
+  return (
+    rectagle1.attackBox.position.x + rectagle1.attackBox.width >=
+      rectagle2.position.x &&
+    rectagle1.attackBox.position.x <= rectagle2.width + rectagle2.position.x &&
+    rectagle1.attackBox.position.y + rectagle1.attackBox.height >=
+      rectagle2.position.y &&
+    rectagle1.attackBox.position.y <= rectagle2.position.y + rectagle2.height
+  );
+}
 
 //função que roda em loop. Cada chamada dessa função pe um frame do game
 function animate() {
@@ -150,14 +178,18 @@ function animate() {
 
   //detectar colision
   if (
-    player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
-    player.attackBox.position.x <= enemy.width + enemy.position.x &&
-    player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
-    player.attackBox.position.y <= enemy.position.y + enemy.height &&
+    rectangularCollision({ rectagle1: player, rectagle2: enemy }) &&
     player.isAttacking
   ) {
-    player.isAttacking = false
-    console.log("Atacando");
+    player.isAttacking = false;
+    console.log("Atacando Player");
+  }
+  if (
+    rectangularCollision({ rectagle1: enemy, rectagle2: player }) &&
+    enemy.isAttacking
+  ) {
+    enemy.isAttacking = false;
+    console.log("Atacando Enemy");
   }
 }
 animate();
@@ -190,6 +222,9 @@ window.addEventListener("keydown", (event) => {
       break;
     case "ArrowUp":
       enemy.velocity.y = -20;
+      break;
+    case "ArrowDown":
+      enemy.attack();
       break;
   }
 });
