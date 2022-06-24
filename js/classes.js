@@ -10,6 +10,8 @@ class Sprite {
     this.scale = scale;
     //atributo que guarda a qnt de frames de uma imagem
     this.framesMax = framesMax
+    //o valor desse atributo controla qual frame será mostrado
+    this.frameCurrent = 0
   }
 
   //método que insere o Sprite na cena
@@ -19,7 +21,9 @@ class Sprite {
       this.image,
       //essa parte gera uma janela de corte pra imagem, que começa na posição 0
       //o que tiver fora da janela de corte da nossa imagem, não vai aparecer
-      0,
+        //essa conta a baixo é responsável por "andar" a janela de corte para
+        //passar os frames
+      this.frameCurrent * (this.image.width / this.framesMax),
       0,
       this.image.width / this.framesMax,
       this.image.height,
