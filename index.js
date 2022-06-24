@@ -73,6 +73,14 @@ const player = new Fighter({
       framesMax: 6,
     },
   },
+  attackBox: {
+    offset: {
+      x: 0,
+      y: 0,
+    },
+    width: 100,
+    height: 50,
+  },
 });
 //cria um objeto enemy da classe Sprite
 const enemy = new Fighter({
@@ -117,6 +125,14 @@ const enemy = new Fighter({
       imageSrc: "./assets/kenji/Attack1.png",
       framesMax: 4,
     },
+  },
+  attackBox: {
+    offset: {
+      x: 0,
+      y: 0,
+    },
+    width: 100,
+    height: 50,
   },
 });
 
@@ -182,7 +198,7 @@ function animate() {
   } else if (keys.ArrowRight.pressed && enemy.lasKey === "ArrowRight") {
     enemy.velocity.x = 5;
     enemy.switchSprit("run");
-  }else {
+  } else {
     enemy.switchSprit("idle");
   }
 
