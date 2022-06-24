@@ -237,7 +237,10 @@ function animate() {
     player.isAttacking = false;
     console.log("Atacando Player");
     enemy.takeHit();
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+    // document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+    gsap.to('#enemyHealth', {
+        width: enemy.health + '%'
+    })
   }
 
   //if player miss
@@ -253,7 +256,10 @@ function animate() {
     enemy.isAttacking = false;
     console.log("Atacando Enemy");
     player.takeHit();
-    document.querySelector("#playerHealth").style.width = player.health + "%";
+    // document.querySelector("#playerHealth").style.width = player.health + "%";
+    gsap.to('#playerHealth', {
+        width: player.health + '%'
+    })
   }
 
   //if enemy miss
