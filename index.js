@@ -156,7 +156,7 @@ function determineWinner({player, enemy, timeId}){
           resultText.innerHTML = 'Enemy Red Ganhou'
       }
 }
-let timer = 10;
+let timer = 15;
 let timeId
 function decreaseTimer() {
   if (timer > 0) {
