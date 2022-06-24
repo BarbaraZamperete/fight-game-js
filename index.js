@@ -51,6 +51,28 @@ const player = new Fighter({
     x: 215,
     y: 157,
   },
+  sprites: {
+    idle: {
+      imageSrc: "./assets/samuraiMack/Idle.png",
+      framesMax: 8,
+    },
+    run: {
+      imageSrc: "./assets/samuraiMack/Run.png",
+      framesMax: 8,
+    },
+    jump: {
+      imageSrc: "./assets/samuraiMack/Jump.png",
+      framesMax: 2,
+    },
+    fall: {
+      imageSrc: "./assets/samuraiMack/Fall.png",
+      framesMax: 2,
+    },
+    attack1: {
+      imageSrc: "./assets/samuraiMack/Attack1.png",
+      framesMax: 6,
+    },
+  },
 });
 //cria um objeto enemy da classe Sprite
 const enemy = new Fighter({
@@ -116,8 +138,19 @@ function animate() {
   //para então gerar a velocidade no eixo X no personagem
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5;
+    player.switchSprit("run");
   } else if (keys.d.pressed && player.lastKey === "d") {
     player.velocity.x = 5;
+    player.switchSprit("run");
+  } else {
+    player.switchSprit("idle");
+  }
+
+  //jumpping
+  if (player.velocity.y < 0) {
+    player.switchSprit("jump");
+  } else if (player.velocity.y > 0) {
+    player.switchSprit("fall");
   }
 
   //movimento do enemy
