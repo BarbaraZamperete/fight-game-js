@@ -1,18 +1,34 @@
 class Sprite {
-  constructor({ position, imageSrc }) {
+  constructor({ position, imageSrc, scale = 1, framesMax = 1 }) {
     this.position = position;
     this.height = 150;
     this.width = 50;
-    //atributo imagem é um Objeto do tipo Imagem
-    this.image = new Image()
+    //atributo imagem é um Objeto do tipo Imagem scale=1
+    this.image = new Image();
     //esse obj recebe como src o atributo que é passado no construtor: imageSrc
-    this.image.src = imageSrc
+    this.image.src = imageSrc;
+    this.scale = scale;
+    this.framesMax = framesMax
   }
 
   //método que insere o Sprite na cena
   draw() {
-    //insere o objeto this.image na posição x,y
-    c.drawImage(this.image, this.position.x, this.position.y)
+    //insere o objeto this.image na posição x,y, com o o width e height
+    c.drawImage(
+      this.image,
+      //essa parte gera uma janela de corte pra imagem, que começa na posição 0
+      //o que tiver fora da janela de corte da nossa imagem, não vai aparecer
+      0,
+      0,
+      this.image.width / this.framesMax,
+      this.image.height,
+      //aqui termina a janela de corte
+      //aqui ém diante é para a construção da imagem inteira
+      this.position.x,
+      this.position.y,
+      (this.image.width / this.framesMax) * this.scale,
+      this.image.height * this.scale
+    );
   }
 
   //método que é chamado a cada frame do jogo

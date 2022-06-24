@@ -11,6 +11,16 @@ const gravity = 0.7;
 //preenche a tela, da posição x1,y1 até a posição x2,y2
 c.fillRect(0, 0, canvas.width, canvas.height);
 
+const shop = new Sprite({
+    position: {
+        x: 600,
+        y: 128
+    },
+    imageSrc: "./assets/shop.png",
+    scale: 2.75,
+    framesMax: 6
+})
+
 const background = new Sprite({
   position: {
     x: 0,
@@ -79,6 +89,7 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
   //jogadores atualizados
   background.update();
+  shop.update();
   player.update();
   enemy.update();
 
