@@ -85,7 +85,7 @@ class Fighter extends Sprite {
     framesMax = 1,
     offset = { x: 0, y: 0 },
     sprites,
-    attackBox = {offset:{}, width: undefined, height: undefined},
+    attackBox = { offset: {}, width: undefined, height: undefined },
   }) {
     super({
       position,
@@ -180,13 +180,26 @@ class Fighter extends Sprite {
     }
   }
 
+  takeHit() {
+    this.switchSprit("takeHit");
+    this.health -= 20;
+  }
+
   switchSprit(sprite) {
     //se o personagem tiver atacando, o sprint de ataque vai prevalecer até ele terminar
     if (
       this.image === this.sprites.attack1.image &&
       this.frameCurrent < this.sprites.attack1.framesMax - 1
-    )
+    ) {
       return;
+    }
+
+    if (
+      this.image === this.sprites.takeHit.image &&
+      this.frameCurrent < this.sprites.takeHit.framesMax - 1
+    ) {
+      return;
+    }
     switch (sprite) {
       case "idle":
         if (this.image !== this.sprites.idle.image) {
@@ -220,6 +233,13 @@ class Fighter extends Sprite {
         if (this.image !== this.sprites.attack1.image) {
           this.image = this.sprites.attack1.image;
           this.framesMax = this.sprites.attack1.framesMax;
+          this.frameCurrent = 0;
+        }
+        break;
+      case "takeHit":
+        if (this.image !== this.sprites.takeHit.image) {
+          this.image = this.sprites.takeHit.image;
+          this.framesMax = this.sprites.takeHit.framesMax;
           this.frameCurrent = 0;
         }
         break;
