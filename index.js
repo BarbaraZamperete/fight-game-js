@@ -143,7 +143,8 @@ function rectangularCollision({ rectagle1, rectagle2 }) {
     rectagle1.attackBox.position.y <= rectagle2.position.y + rectagle2.height
   );
 }
-function determineWinner({player, enemy}){
+function determineWinner({player, enemy, timeId}){
+    clearTimeout(timeId)
     const resultText = document.querySelector("#resultText")
     resultText.style.display = "flex";
     if (player.health === enemy.health) {
@@ -156,15 +157,16 @@ function determineWinner({player, enemy}){
       }
 }
 let timer = 10;
+let timeId
 function decreaseTimer() {
   if (timer > 0) {
-    setTimeout(decreaseTimer, 1000);
+    timeId = setTimeout(decreaseTimer, 1000);
     timer--;
     document.querySelector("#timer").innerHTML = timer;
   }
 
   if (timer == 0) {
-    determineWinner({player, enemy})
+    determineWinner({player, enemy, timeId})
   }
 }
 decreaseTimer();
@@ -222,7 +224,7 @@ function animate() {
 
   //end the game base on health
   if( enemy.health <= 0 || player.health <= 0){
-    determineWinner({player, enemy})
+    determineWinner({player, enemy, timeId})
   }
 }
 animate();
