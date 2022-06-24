@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,26 +8,31 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Fight Game</title>
 </head>
+
 <body>
     <div class="container">
         <div class="bar-container">
             <div class="player">
                 <div class="player-bar"></div>
                 <div id="playerHealth"></div>
-            </div> 
+            </div>
             <div id="timer" class="time-bar">
-                
+
             </div>
             <div class="enemy">
                 <div class="enemy-bar"></div>
                 <div id="enemyHealth"></div>
-            </div> 
+            </div>
         </div>
         <div id="resultText" class="result"></div>
         <canvas></canvas>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
+        integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/utils.js"></script>
     <script src="js/classes.js"></script>
     <script src="index.js"></script>
 </body>
+
 </html>
