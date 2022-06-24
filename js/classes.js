@@ -145,7 +145,7 @@ class Fighter extends Sprite {
   //   }
 
   attack() {
-    this.switchSprit('attack1')
+    this.switchSprit("attack1");
     this.isAttacking = true;
     setTimeout(() => {
       this.isAttacking = false;
@@ -159,6 +159,13 @@ class Fighter extends Sprite {
     this.animateFrames();
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y;
+
+    c.fillRect(
+      this.attackBox.position.x,
+      this.attackBox.position.y,
+      this.attackBox.width,
+      this.attackBox.height
+    );
 
     //adiciona velocidade a posição
     this.position.x += this.velocity.x;
@@ -179,7 +186,11 @@ class Fighter extends Sprite {
 
   switchSprit(sprite) {
     //se o personagem tiver atacando, o sprint de ataque vai prevalecer até ele terminar
-    if(this.image === this.sprites.attack1.image && this.frameCurrent < this.sprites.attack1.framesMax - 1) return
+    if (
+      this.image === this.sprites.attack1.image &&
+      this.frameCurrent < this.sprites.attack1.framesMax - 1
+    )
+      return;
     switch (sprite) {
       case "idle":
         if (this.image !== this.sprites.idle.image) {
